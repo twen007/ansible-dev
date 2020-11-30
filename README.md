@@ -1,2 +1,2 @@
 # ansibleDev
-ansible examples for class
+ansible examples for class.
