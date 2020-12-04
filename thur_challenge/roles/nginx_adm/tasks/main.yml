@@ -1,0 +1,14 @@
+---
+# tasks file for nginx_adm
+- name: Copy  a file
+  copy:
+    src: "index.html"
+    dest: "/home/{{ fileuser }}/nginx/index.html"
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: present
+  become: true
+  notify:
+    - nginx_installed

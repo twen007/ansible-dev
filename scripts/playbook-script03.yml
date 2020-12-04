@@ -1,0 +1,13 @@
+---
+- name: Playbook that sends HTTP GET to target URI
+  hosts: localhost
+
+  vars:
+    astros: "{{ lookup('url', 'http://api.open-notify.org/astros.json') }}"
+
+  tasks:
+
+  - name: Print out the 'results'
+    debug:
+            msg: "{{astros}}"
+

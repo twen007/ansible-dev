@@ -1,0 +1,54 @@
+- name: Thursday Challenge
+  hosts: planetexpress !farnsworth
+  gather_facts: yes
+
+  pre_tasks:
+    - name: Make a nginx directory
+      become_user: root
+      become: true
+      file:
+        path: "/home/{{ fileuser }}/nginx/"
+        state: directory
+        owner: "{{ fileuser }}"
+        group: "{{ fileuser }}"
+        mode: "0755"
+      notify:
+        - nginx_dir_created
+
+  roles:
+    - nginx_adm
+
+  tasks:
+    - name: do a ls on home
+      command: ls
+      register: home_ls
+
+    - name: debug ls
+      debug:
+        var: home_ls
+      tags: ls
+
+  post_tasks:
+    - name: remove nginx
+      become_user: root
+      become: true
+      apt:
+        name: nginx
+        state: absent
+      notify:
+        - nginx_removed
+
+  handlers:
+    - name: nginx_dir_created
+      debug:
+        msg: "changes made by pre task"
+
+    - name: nginx_installed
+      debug:
+        msg: "tasks in roles installed nginx"
+    - name: nginx_removed
+      debug:
+        msg: "nginx is removed"
+
+
+
